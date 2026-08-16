@@ -1,50 +1,133 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#129447">
-  <title>Tu Market</title>
-  <style>
-    :root{--green:#129447;--dark:#123c2b;--cream:#f7f5ec;--card:#fff;--muted:#66756d;--line:#dfe8e2}
-    *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:var(--cream);color:#17251e}
-    header{background:linear-gradient(135deg,#08783a,#19a957);color:#fff;padding:18px 16px 26px;position:sticky;top:0;z-index:5;box-shadow:0 3px 12px #0002}
-    .head{max-width:900px;margin:auto;display:flex;align-items:center;gap:12px}.logo{font-size:42px;background:#fff;border-radius:15px;padding:4px 8px;box-shadow:0 3px 10px #0002}.brand{flex:1}.brand h1{margin:0;font-size:27px}.brand small{opacity:.9}
-    .cart{border:0;background:#fff;color:var(--green);font-weight:800;border-radius:999px;padding:11px 14px;font-size:15px}
-    main{max-width:900px;margin:-13px auto 70px;padding:0 14px}.search{display:flex;gap:8px;background:#fff;padding:10px;border-radius:17px;box-shadow:0 5px 18px #254b3420}.search input{width:100%;border:0;outline:0;font-size:16px;padding:7px}
-    .categories{display:flex;gap:8px;overflow:auto;padding:16px 1px 10px}.categories button{white-space:nowrap;border:1px solid var(--line);background:#fff;padding:9px 13px;border-radius:999px}.categories .active{background:var(--dark);color:#fff;border-color:var(--dark)}
-    .notice{background:#fff7d6;border:1px solid #f0d77d;padding:11px 13px;border-radius:12px;font-size:14px;margin:4px 0 13px}
-    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.product{background:var(--card);border-radius:18px;overflow:hidden;box-shadow:0 3px 13px #254b3415}.photo{height:126px;display:grid;place-items:center;font-size:64px;background:linear-gradient(145deg,#eff8f1,#fff)}
-    .info{padding:12px}.info h3{font-size:16px;margin:0 0 5px}.tag{font-size:12px;color:var(--muted)}.row{display:flex;align-items:center;justify-content:space-between;margin-top:10px}.price{font-weight:850;font-size:18px}.add{border:0;background:var(--green);color:#fff;border-radius:10px;padding:8px 11px;font-weight:750}.sold{background:#aaa}
-    footer{text-align:center;color:var(--muted);font-size:13px;padding:26px}.modal{position:fixed;inset:0;background:#0008;display:none;align-items:flex-end;z-index:10}.modal.open{display:flex}.sheet{background:#fff;width:100%;max-width:620px;margin:auto;border-radius:24px 24px 0 0;padding:20px;max-height:88vh;overflow:auto}.sheet h2{margin:0 0 12px}.close{float:right;border:0;background:#edf2ee;border-radius:50%;font-size:20px;width:36px;height:36px}
-    label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px}input,select,textarea{width:100%;padding:11px;border:1px solid #ccd9d0;border-radius:10px;font:inherit}textarea{min-height:70px}.primary{width:100%;border:0;background:var(--green);color:#fff;padding:13px;border-radius:12px;font-size:16px;font-weight:800;margin-top:15px}.lineitem{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:9px 0}.empty{text-align:center;padding:35px;color:var(--muted)}
-    #admin{display:none}.admin-card{background:#fff;border-radius:16px;padding:15px;margin:13px 0}.order{border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}.order select{margin-top:8px}
-    @media(min-width:650px){.grid{grid-template-columns:repeat(3,1fr)}.photo{height:155px}.modal{align-items:center}.sheet{border-radius:24px}}
-  </style>
+<meta charSet="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="preload" as="image" href="tu-market-logo-realistic.png"/>
+<link rel="stylesheet" href="tu-market.css"/>
+<title>Tu Market</title>
+<meta name="description" content="Productos, reservas y entregas de Tu Market en Villa Clara."/>
+<link rel="icon" href="tu-market-logo-realistic.png"/>
+<link rel="apple-touch-icon" href="tu-market-logo-realistic.png"/>
+<style>[hidden]{display:none!important}</style>
 </head>
 <body>
-<section id="shop">
-  <header><div class="head"><div class="logo">🛒</div><div class="brand"><h1>Tu Market</h1><small>Tu mercado cerca de ti</small></div><button class="cart" onclick="openCart()">🛍️ <span id="count">0</span></button></div></header>
-  <main><div class="search">🔎<input id="search" placeholder="Buscar productos…" oninput="renderProducts()"></div><div id="categories" class="categories"></div><div class="notice">🕒 Horario: 7:00 a. m. – 7:00 p. m. · Reservas hasta 24 horas</div><div id="products" class="grid"></div><footer>Entregas en Encrucijada y Cifuentes · Costo según distancia</footer></main>
+<main>
+<header class="topbar">
+<a class="brand brandWithLogo" href="#inicio" aria-label="Tu Market, inicio">
+<img src="tu-market-logo-realistic.png" alt=""/>
+<span>
+<b>Tu</b> Market</span>
+</a>
+<nav>
+<a href="#productos">Productos</a>
+<a href="#entrega">Entrega</a>
+<a href="#informacion">Información</a>
+</nav>
+<button class="cartButton">Mi reserva <b>0</b>
+</button>
+</header>
+<section class="hero" id="inicio">
+<div class="heroCopy">
+<p class="eyebrow">Calabazar de Sagua · Villa Clara</p>
+<h1>Todo lo que necesitas, <em>en un solo lugar.</em>
+</h1>
+<p class="lead">Consulta lo disponible hoy, reserva desde tu teléfono y elige recoger en el mercado o recibir tu compra a domicilio.</p>
+<div class="heroActions">
+<a class="primary" href="#productos">Ver productos</a>
+<a class="secondary" href="https://wa.me/5356989325">Pedir por WhatsApp</a>
+</div>
+<div class="quickFacts">
+<span>● Abierto 7:00 a. m.–7:00 p. m.</span>
+<span>Reservas por 24 horas</span>
+</div>
+</div>
+<div class="marketCard" aria-hidden="true">
+<div class="sun">
+</div>
+<img class="heroLogo" src="tu-market-logo-realistic.png" alt=""/>
+<p>Compra fácil. Cerca de ti.</p>
+</div>
 </section>
-<section id="admin"><header><div class="head"><div class="logo">⚙️</div><div class="brand"><h1>Panel administrativo</h1><small>Tu Market</small></div><button class="cart" onclick="location.hash=''">Tienda</button></div></header><main><div class="admin-card"><h2>Pedidos</h2><div id="orders"></div></div><div class="admin-card"><h2>Clasificaciones</h2><p>Aseo · Bebidas y licorería · Cárnicos · Aseo personal · Equipos eléctricos · Dulces</p><small>La administración completa y sincronización entre dispositivos se conectará en la próxima etapa.</small></div></main></section>
-<div id="modal" class="modal" onclick="if(event.target===this)closeCart()"><div class="sheet"><button class="close" onclick="closeCart()">×</button><h2>Tu pedido</h2><div id="cartItems"></div><div id="form"><label>Nombre y apellidos</label><input id="name"><label>Teléfono</label><input id="phone" inputmode="tel"><label>Entrega</label><select id="delivery"><option>Recoger en la tienda</option><option>Entrega a domicilio</option></select><label>Dirección</label><input id="address"><label>Punto de referencia (opcional)</label><textarea id="reference"></textarea><label>Forma de pago</label><select id="payment"><option>Efectivo (cash)</option><option>Zelle</option><option>Transferencia bancaria</option></select><button class="primary" onclick="placeOrder()">Confirmar pedido</button></div></div></div>
+<section class="products" id="productos">
+<div class="sectionHead">
+<div>
+<p class="eyebrow">Catálogo del día</p>
+<h2>Productos disponibles</h2>
+</div>
+<label class="search">⌕<input placeholder="Buscar un producto" value=""/>
+</label>
+</div>
+<div id="categoryFilters" class="categoryFilters" aria-label="Buscar por clasificación"></div>
+<div class="notice">El catálogo muestra los productos y precios disponibles hoy.</div>
+<div id="productGrid" class="productGrid"><p>Cargando productos…</p></div>
+</section>
+<section class="delivery" id="entrega">
+<div>
+<p class="eyebrow">Llegamos hasta ti</p>
+<h2>Entrega en Encrucijada y Cifuentes</h2>
+<p>Realizamos entregas en todo el territorio de ambos municipios. El costo se calcula según la distancia y se confirma antes de confirmar el pedido.</p>
+<ul>
+<li>Escribe tu dirección y un punto de referencia</li>
+<li>Te confirmamos el costo de entrega</li>
+<li>La compra mínima podrá configurarse más adelante</li>
+</ul>
+</div>
+<div class="routeCard">
+<span>Tu pedido</span>
+<b>Calabazar de Sagua</b>
+<div class="routeLine">
+</div>
+<span>Tu dirección</span>
+<b>Encrucijada o Cifuentes</b>
+</div>
+</section>
+<section class="info" id="informacion">
+<article>
+<span>◷</span>
+<h3>Horario</h3>
+<p>Todos los días<br/>
+<b>7:00 a. m.–7:00 p. m.</b>
+</p>
+</article>
+<article>
+<span>⌂</span>
+<h3>Ubicación</h3>
+<p>Central Oeste s/n, Calabazar de Sagua<br/>Encrucijada, Villa Clara</p>
+</article>
+<article>
+<span>◇</span>
+<h3>Formas de pago</h3>
+<p>Efectivo, Transfermóvil QR, tarjeta POS,<br/>Zelle y transferencia bancaria</p>
+</article>
+</section>
+<footer>
+<div class="brand brandWithLogo">
+<img src="tu-market-logo-realistic.png" alt=""/>
+<span>
+<b>Tu</b> Market</span>
+</div>
+<p>Tu mercado local en Calabazar de Sagua.</p>
+<p>Pedidos: +53 56989325</p>
+<p><a href="admin.html">Acceso administrativo</a></p>
+</footer>
+</main>
+<div id="cartModal" class="modalBackdrop" hidden>
+<div class="modal"><button class="close" type="button" aria-label="Cerrar">×</button><h2>Mi reserva</h2><div id="cartItems"></div>
+<form id="orderForm"><label>Nombre y apellidos<input id="customerName" required></label><label>Teléfono<input id="phone" inputmode="tel" required></label><label>Entrega<select id="deliveryType"><option>Recoger en la tienda</option><option>Entrega a domicilio</option></select></label><label>Dirección<input id="address"></label><label>Punto de referencia (opcional)<textarea id="reference"></textarea></label><label>Forma de pago<select id="paymentMethod"><option>Efectivo (cash)</option><option>Zelle</option><option>Transferencia bancaria</option></select></label><button class="primary" type="submit">Confirmar pedido</button></form>
+</div></div>
 <script>
-const SUPABASE_URL='https://faebaloprnuvkmqggsgo.supabase.co';
-const SUPABASE_KEY='sb_publishable_L12dqE66IVhn_qCoooGx5A_XQ2bVXRj';
-const API_HEADERS={apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`};
-let categories=['Todos'],products=[];
-let selected='Todos',cart=JSON.parse(localStorage.getItem('tm-cart')||'[]');
+const SUPABASE_URL='https://faebaloprnuvkmqggsgo.supabase.co',SUPABASE_KEY='sb_publishable_L12dqE66IVhn_qCoooGx5A_XQ2bVXRj',apiHeaders={apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`};
+const search=document.querySelector('.search input'),cartButton=document.querySelector('.cartButton'),modal=document.getElementById('cartModal');let products=[],selected='Todos',cart=[];
 function money(v){return Number(v)>0?`$${Number(v).toFixed(2)}`:'Precio por confirmar'}
-function renderCategories(){categoriesEl.innerHTML='';categories.forEach(c=>{const b=document.createElement('button');b.textContent=c;b.className=c===selected?'active':'';b.onclick=()=>{selected=c;renderCategories();renderProducts()};categoriesEl.appendChild(b)});}
-function renderProducts(){productsEl.innerHTML='';const q=search.value.toLowerCase();const list=products.filter(p=>(selected==='Todos'||p.category===selected)&&p.name.toLowerCase().includes(q));list.forEach(p=>productsEl.insertAdjacentHTML('beforeend',`<article class="product"><div class="photo">${p.image_url?`<img src="${p.image_url}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover">`:(p.emoji||'🛒')}</div><div class="info"><h3>${p.name}</h3><span class="tag">${p.category} · ${p.unit||'unidad'}</span><div class="row"><span class="price">${money(p.price)}</span><button class="add" ${p.available?'':'disabled'} onclick="add(${p.id})">${p.available?'Agregar':'Agotado'}</button></div></div></article>`));if(!list.length)productsEl.innerHTML='<div class="empty">No hay productos disponibles en esta clasificación</div>'}
-async function loadProducts(){productsEl.innerHTML='<div class="empty">Cargando productos…</div>';try{const r=await fetch(`${SUPABASE_URL}/rest/v1/products?select=*&order=name.asc`,{headers:API_HEADERS});if(!r.ok)throw Error();products=await r.json();categories=['Todos',...new Set(products.map(p=>p.category).filter(Boolean))];renderCategories();renderProducts()}catch(e){productsEl.innerHTML='<div class="empty">No se pudo cargar el catálogo. Inténtalo nuevamente.</div>'}}
-function add(id){cart.push(id);save();}function save(){cart=cart.filter(id=>products.some(p=>p.id===id));localStorage.setItem('tm-cart',JSON.stringify(cart));count.textContent=cart.length}
-function openCart(){modal.classList.add('open');cartItems.innerHTML=cart.length?'':'<div class="empty">Tu carrito está vacío</div>';cart.forEach(id=>{const p=products.find(v=>v.id===id);if(p)cartItems.insertAdjacentHTML('beforeend',`<div class="lineitem"><span>${p.emoji||'🛒'} ${p.name} · ${money(p.price)}</span><button onclick="removeOne(${p.id})">Quitar</button></div>`)});form.style.display=cart.length?'block':'none'}
-function removeOne(id){cart.splice(cart.indexOf(id),1);save();openCart()}function closeCart(){modal.classList.remove('open')}
-async function placeOrder(){if(!name.value.trim()||!phone.value.trim()){alert('Escribe tu nombre y teléfono.');return}if(delivery.value==='Entrega a domicilio'&&!address.value.trim()){alert('Escribe la dirección de entrega.');return}const num='TM-'+Date.now().toString().slice(-6),chosen=cart.map(id=>products.find(p=>p.id===id)).filter(Boolean),total=chosen.reduce((s,p)=>s+Number(p.price||0),0);const body={confirmation_code:num,customer_name:name.value.trim(),phone:phone.value.trim(),address:address.value.trim(),reference:reference.value.trim(),delivery_type:delivery.value,payment_method:payment.value,items:chosen.map(p=>({id:p.id,name:p.name,price:Number(p.price||0),unit:p.unit})),total,status:'Pendiente'};const button=document.querySelector('#form .primary');button.disabled=true;button.textContent='Enviando…';try{const r=await fetch(`${SUPABASE_URL}/rest/v1/orders`,{method:'POST',headers:{...API_HEADERS,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(body)});if(!r.ok)throw Error(await r.text());cart=[];save();closeCart();alert('Pedido recibido. Tu número de confirmación es '+num)}catch(e){alert('No se pudo enviar el pedido. Revisa la conexión e inténtalo otra vez.')}finally{button.disabled=false;button.textContent='Confirmar pedido'}}
-function showAdmin(){shop.style.display='none';admin.style.display='block';const list=JSON.parse(localStorage.getItem('tm-orders')||'[]');orders.innerHTML=list.length?'':'<div class="empty">No hay pedidos en este dispositivo</div>';list.forEach((o,i)=>orders.insertAdjacentHTML('beforeend',`<div class="order"><b>${o.num}</b> · ${o.name}<br><small>${o.phone} · ${o.delivery}</small><select onchange="statusChange(${i},this.value)">${['Pendiente','Confirmado','Entregado','Cancelado'].map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select></div>`))}
-function statusChange(i,v){const a=JSON.parse(localStorage.getItem('tm-orders')||'[]');a[i].status=v;localStorage.setItem('tm-orders',JSON.stringify(a))}
-const categoriesEl=document.getElementById('categories'),productsEl=document.getElementById('products');count.textContent=cart.length;renderCategories();loadProducts();function route(){if(location.hash==='#admin')showAdmin();else{admin.style.display='none';shop.style.display='block'}}addEventListener('hashchange',route);route();
+function renderFilters(){const cats=['Todos',...new Set(products.map(p=>p.category).filter(Boolean))];categoryFilters.innerHTML=cats.map(c=>`<button type="button" class="${c===selected?'active':''}" data-category="${c}">${c}</button>`).join('');categoryFilters.querySelectorAll('button').forEach(b=>b.onclick=()=>{selected=b.dataset.category;renderFilters();renderProducts()})}
+function renderProducts(){const q=search.value.toLowerCase(),list=products.filter(p=>(selected==='Todos'||p.category===selected)&&p.name.toLowerCase().includes(q));productGrid.innerHTML=list.map(p=>`<article class="productCard"><div class="productVisual">${p.image_url?`<img src="${p.image_url}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover">`:(p.emoji||'🛒')}<span class="status">${p.available?'Disponible':'Agotado'}</span></div><div class="productInfo"><small>${p.category||''}</small><h3>${p.name}</h3><p class="price">${money(p.price)} <span>/ ${p.unit||'unidad'}</span></p><button ${p.available?'':'disabled'} data-id="${p.id}">${p.available?'Agregar':'No disponible'}</button></div></article>`).join('')||'<p>No hay productos en esta clasificación.</p>';productGrid.querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>add(Number(b.dataset.id)))}
+async function loadProducts(){try{const r=await fetch(`${SUPABASE_URL}/rest/v1/products?select=*&order=name.asc`,{headers:apiHeaders});if(!r.ok)throw Error();products=await r.json();renderFilters();renderProducts()}catch(e){productGrid.innerHTML='<p>No se pudo cargar el catálogo. Inténtalo nuevamente.</p>'}}
+function add(id){cart.push(id);cartButton.querySelector('b').textContent=cart.length}
+function openCart(){cartItems.innerHTML=cart.length?cart.map((id,i)=>{const p=products.find(x=>x.id===id);return p?`<p>${p.emoji||'🛒'} ${p.name} · ${money(p.price)} <button type="button" data-remove="${i}">Quitar</button></p>`:''}).join(''):'<p>Tu reserva está vacía.</p>';orderForm.hidden=!cart.length;cartItems.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{cart.splice(Number(b.dataset.remove),1);cartButton.querySelector('b').textContent=cart.length;openCart()});modal.hidden=false}
+cartButton.onclick=openCart;modal.querySelector('.close').onclick=()=>modal.hidden=true;modal.onclick=e=>{if(e.target===modal)modal.hidden=true};search.oninput=renderProducts;
+orderForm.onsubmit=async e=>{e.preventDefault();if(deliveryType.value==='Entrega a domicilio'&&!address.value.trim())return alert('Escribe la dirección de entrega.');const chosen=cart.map(id=>products.find(p=>p.id===id)).filter(Boolean),num='TM-'+Date.now().toString().slice(-6),body={confirmation_code:num,customer_name:customerName.value.trim(),phone:phone.value.trim(),address:address.value.trim(),reference:reference.value.trim(),delivery_type:deliveryType.value,payment_method:paymentMethod.value,items:chosen.map(p=>({id:p.id,name:p.name,price:Number(p.price||0),unit:p.unit})),total:chosen.reduce((s,p)=>s+Number(p.price||0),0),status:'Pendiente'},btn=orderForm.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Enviando…';try{const r=await fetch(`${SUPABASE_URL}/rest/v1/orders`,{method:'POST',headers:{...apiHeaders,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(body)});if(!r.ok)throw Error();cart=[];cartButton.querySelector('b').textContent='0';modal.hidden=true;orderForm.reset();alert(`Pedido recibido. Tu número de confirmación es ${num}`)}catch(err){alert('No se pudo enviar el pedido. Inténtalo nuevamente.')}finally{btn.disabled=false;btn.textContent='Confirmar pedido'}};
+loadProducts();
 </script>
-</body></html>
+</body>
+</html>
