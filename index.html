@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#129447">
+  <title>Tu Market</title>
+  <style>
+    :root{--green:#129447;--dark:#123c2b;--cream:#f7f5ec;--card:#fff;--muted:#66756d;--line:#dfe8e2}
+    *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:var(--cream);color:#17251e}
+    header{background:linear-gradient(135deg,#08783a,#19a957);color:#fff;padding:18px 16px 26px;position:sticky;top:0;z-index:5;box-shadow:0 3px 12px #0002}
+    .head{max-width:900px;margin:auto;display:flex;align-items:center;gap:12px}.logo{font-size:42px;background:#fff;border-radius:15px;padding:4px 8px;box-shadow:0 3px 10px #0002}.brand{flex:1}.brand h1{margin:0;font-size:27px}.brand small{opacity:.9}
+    .cart{border:0;background:#fff;color:var(--green);font-weight:800;border-radius:999px;padding:11px 14px;font-size:15px}
+    main{max-width:900px;margin:-13px auto 70px;padding:0 14px}.search{display:flex;gap:8px;background:#fff;padding:10px;border-radius:17px;box-shadow:0 5px 18px #254b3420}.search input{width:100%;border:0;outline:0;font-size:16px;padding:7px}
+    .categories{display:flex;gap:8px;overflow:auto;padding:16px 1px 10px}.categories button{white-space:nowrap;border:1px solid var(--line);background:#fff;padding:9px 13px;border-radius:999px}.categories .active{background:var(--dark);color:#fff;border-color:var(--dark)}
+    .notice{background:#fff7d6;border:1px solid #f0d77d;padding:11px 13px;border-radius:12px;font-size:14px;margin:4px 0 13px}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.product{background:var(--card);border-radius:18px;overflow:hidden;box-shadow:0 3px 13px #254b3415}.photo{height:126px;display:grid;place-items:center;font-size:64px;background:linear-gradient(145deg,#eff8f1,#fff)}
+    .info{padding:12px}.info h3{font-size:16px;margin:0 0 5px}.tag{font-size:12px;color:var(--muted)}.row{display:flex;align-items:center;justify-content:space-between;margin-top:10px}.price{font-weight:850;font-size:18px}.add{border:0;background:var(--green);color:#fff;border-radius:10px;padding:8px 11px;font-weight:750}.sold{background:#aaa}
+    footer{text-align:center;color:var(--muted);font-size:13px;padding:26px}.modal{position:fixed;inset:0;background:#0008;display:none;align-items:flex-end;z-index:10}.modal.open{display:flex}.sheet{background:#fff;width:100%;max-width:620px;margin:auto;border-radius:24px 24px 0 0;padding:20px;max-height:88vh;overflow:auto}.sheet h2{margin:0 0 12px}.close{float:right;border:0;background:#edf2ee;border-radius:50%;font-size:20px;width:36px;height:36px}
+    label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px}input,select,textarea{width:100%;padding:11px;border:1px solid #ccd9d0;border-radius:10px;font:inherit}textarea{min-height:70px}.primary{width:100%;border:0;background:var(--green);color:#fff;padding:13px;border-radius:12px;font-size:16px;font-weight:800;margin-top:15px}.lineitem{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:9px 0}.empty{text-align:center;padding:35px;color:var(--muted)}
+    #admin{display:none}.admin-card{background:#fff;border-radius:16px;padding:15px;margin:13px 0}.order{border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}.order select{margin-top:8px}
+    @media(min-width:650px){.grid{grid-template-columns:repeat(3,1fr)}.photo{height:155px}.modal{align-items:center}.sheet{border-radius:24px}}
+  </style>
+</head>
+<body>
+<section id="shop">
+  <header><div class="head"><div class="logo">🛒</div><div class="brand"><h1>Tu Market</h1><small>Tu mercado cerca de ti</small></div><button class="cart" onclick="openCart()">🛍️ <span id="count">0</span></button></div></header>
+  <main><div class="search">🔎<input id="search" placeholder="Buscar productos…" oninput="renderProducts()"></div><div id="categories" class="categories"></div><div class="notice">🕒 Horario: 7:00 a. m. – 7:00 p. m. · Reservas hasta 24 horas</div><div id="products" class="grid"></div><footer>Entregas en Encrucijada y Cifuentes · Costo según distancia</footer></main>
+</section>
+<section id="admin"><header><div class="head"><div class="logo">⚙️</div><div class="brand"><h1>Panel administrativo</h1><small>Tu Market</small></div><button class="cart" onclick="location.hash=''">Tienda</button></div></header><main><div class="admin-card"><h2>Pedidos</h2><div id="orders"></div></div><div class="admin-card"><h2>Clasificaciones</h2><p>Aseo · Bebidas y licorería · Cárnicos · Aseo personal · Equipos eléctricos · Dulces</p><small>La administración completa y sincronización entre dispositivos se conectará en la próxima etapa.</small></div></main></section>
+<div id="modal" class="modal" onclick="if(event.target===this)closeCart()"><div class="sheet"><button class="close" onclick="closeCart()">×</button><h2>Tu pedido</h2><div id="cartItems"></div><div id="form"><label>Nombre y apellidos</label><input id="name"><label>Teléfono</label><input id="phone" inputmode="tel"><label>Entrega</label><select id="delivery"><option>Recoger en la tienda</option><option>Entrega a domicilio</option></select><label>Dirección</label><input id="address"><label>Punto de referencia (opcional)</label><textarea id="reference"></textarea><label>Forma de pago</label><select id="payment"><option>Efectivo (cash)</option><option>Zelle</option><option>Transferencia bancaria</option></select><button class="primary" onclick="placeOrder()">Confirmar pedido</button></div></div></div>
+<script>
+const categories=['Todos','Aseo','Bebidas y licorería','Cárnicos','Aseo personal','Equipos eléctricos','Dulces'];
+const products=[{id:1,n:'Arroz',c:'Cárnicos',p:0,e:'🍚'},{id:2,n:'Frijoles',c:'Cárnicos',p:0,e:'🫘'},{id:3,n:'Refresco',c:'Bebidas y licorería',p:0,e:'🥤'},{id:4,n:'Productos de aseo',c:'Aseo',p:0,e:'🧹'},{id:5,n:'Aseo personal',c:'Aseo personal',p:0,e:'🧴'},{id:6,n:'Dulces',c:'Dulces',p:0,e:'🍬'},{id:7,n:'Equipos eléctricos',c:'Equipos eléctricos',p:0,e:'🔌'}];
+let selected='Todos',cart=JSON.parse(localStorage.getItem('tm-cart')||'[]');
+function renderCategories(){categories.forEach(c=>{const b=document.createElement('button');b.textContent=c;b.className=c===selected?'active':'';b.onclick=()=>{selected=c;renderCategories();renderProducts()};categoriesEl.appendChild(b)});}
+function renderProducts(){productsEl.innerHTML='';const q=search.value.toLowerCase();const list=products.filter(p=>(selected==='Todos'||p.c===selected)&&p.n.toLowerCase().includes(q));list.forEach(p=>productsEl.insertAdjacentHTML('beforeend',`<article class="product"><div class="photo">${p.e}</div><div class="info"><h3>${p.n}</h3><span class="tag">${p.c}</span><div class="row"><span class="price">Precio en tienda</span><button class="add" onclick="add(${p.id})">Agregar</button></div></div></article>`));if(!list.length)productsEl.innerHTML='<div class="empty">No se encontraron productos</div>'}
+function add(id){cart.push(id);save();}function save(){localStorage.setItem('tm-cart',JSON.stringify(cart));count.textContent=cart.length}
+function openCart(){modal.classList.add('open');cartItems.innerHTML=cart.length?'':'<div class="empty">Tu carrito está vacío</div>';products.filter(p=>cart.includes(p.id)).forEach(p=>cartItems.insertAdjacentHTML('beforeend',`<div class="lineitem"><span>${p.e} ${p.n}</span><button onclick="removeOne(${p.id})">Quitar</button></div>`));form.style.display=cart.length?'block':'none'}
+function removeOne(id){cart.splice(cart.indexOf(id),1);save();openCart()}function closeCart(){modal.classList.remove('open')}
+function placeOrder(){if(!name.value.trim()||!phone.value.trim()){alert('Escribe tu nombre y teléfono.');return}const num='TM-'+Date.now().toString().slice(-6);const orders=JSON.parse(localStorage.getItem('tm-orders')||'[]');orders.unshift({num,name:name.value,phone:phone.value,delivery:delivery.value,address:address.value,reference:reference.value,payment:payment.value,items:[...cart],status:'Pendiente'});localStorage.setItem('tm-orders',JSON.stringify(orders));cart=[];save();closeCart();alert('Pedido recibido. Tu número de confirmación es '+num)}
+function showAdmin(){shop.style.display='none';admin.style.display='block';const list=JSON.parse(localStorage.getItem('tm-orders')||'[]');orders.innerHTML=list.length?'':'<div class="empty">No hay pedidos en este dispositivo</div>';list.forEach((o,i)=>orders.insertAdjacentHTML('beforeend',`<div class="order"><b>${o.num}</b> · ${o.name}<br><small>${o.phone} · ${o.delivery}</small><select onchange="statusChange(${i},this.value)">${['Pendiente','Confirmado','Entregado','Cancelado'].map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select></div>`))}
+function statusChange(i,v){const a=JSON.parse(localStorage.getItem('tm-orders')||'[]');a[i].status=v;localStorage.setItem('tm-orders',JSON.stringify(a))}
+const categoriesEl=document.getElementById('categories'),productsEl=document.getElementById('products');save();renderCategories();renderProducts();function route(){if(location.hash==='#admin')showAdmin();else{admin.style.display='none';shop.style.display='block'}}addEventListener('hashchange',route);route();
+</script>
+</body></html>
