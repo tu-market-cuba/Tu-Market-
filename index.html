@@ -25,7 +25,7 @@
 <meta name="twitter:image" content="https://tu-market-cuba.github.io/Tu-Market-/tu-market-brand.jpg"/>
 <link rel="icon" href="tu-market-logo-realistic.png"/>
 <link rel="apple-touch-icon" href="tu-market-logo-realistic.png"/>
-<style>[hidden]{display:none!important}</style>
+<style>[hidden]{display:none!important}.clientNotice{background:#fff3cd;border:1px solid #ecd98d;border-radius:16px;margin:20px auto;max-width:1080px;padding:18px}.contactPanel{background:#f6f7f2;padding:48px 7vw}.contactGrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1080px;margin:auto}.questionForm{background:#fff;border:1px solid #e0e6e2;border-radius:20px;padding:20px}.questionForm input,.questionForm textarea{display:block;width:100%;padding:11px;border:1px solid #ccd6d0;border-radius:10px;margin:6px 0 12px}.questionForm textarea{min-height:110px}.questionForm button{border:0;background:#16382d;color:#fff;border-radius:10px;padding:12px 16px;font-weight:800}.storeDetails p{white-space:pre-wrap}@media(max-width:700px){.contactGrid{grid-template-columns:1fr}}</style>
 </head>
 <body>
 <main>
@@ -65,7 +65,7 @@
 <p>Compra fácil. Cerca de ti.</p>
 </div>
 </section>
-<section class="products" id="productos">
+<section id="clientNotice" class="clientNotice" hidden><b>Aviso de Tu Market</b><p id="clientNoticeText"></p></section><section class="products" id="productos">
 <div class="sectionHead">
 <div>
 <p class="eyebrow">Catálogo del día</p>
@@ -98,7 +98,7 @@
 <b>Encrucijada o Cifuentes</b>
 </div>
 </section>
-<section class="info" id="informacion">
+<section class="contactPanel" id="contacto"><div class="contactGrid"><div class="storeDetails"><p class="eyebrow">Información de la tienda</p><h2>Estamos para ayudarte</h2><p><b>Dirección:</b> <span id="publicAddress">Por confirmar</span></p><p><b>Teléfono:</b> <a id="publicPhone" href="#">Por confirmar</a></p><p><b>Formas de pago:</b></p><ul id="publicPayments"></ul><p id="publicExtra"></p></div><form id="questionForm" class="questionForm"><h2>Preguntas o inquietudes</h2><p>Escríbenos. Tu mensaje solamente será visible en el panel administrativo.</p><label>Nombre<input id="questionName" required></label><label>Teléfono (opcional)<input id="questionPhone" inputmode="tel"></label><label>Mensaje<textarea id="questionMessage" required></textarea></label><button type="submit">Enviar pregunta</button></form></div></section><section class="info" id="informacion">
 <article>
 <span>◷</span>
 <h3>Horario</h3>
@@ -124,7 +124,7 @@
 <b>Tu</b> Market</span>
 </div>
 <p>Tu mercado local en Calabazar de Sagua.</p>
-<p>Pedidos: +53 56989325</p>
+<p>Pedidos: <span id="footerPhone">+53 56989325</span></p>
 <p><a href="admin.html">Acceso administrativo</a></p>
 </footer>
 </main>
@@ -143,7 +143,10 @@ function add(id){cart.push(id);cartButton.querySelector('b').textContent=cart.le
 function openCart(){cartItems.innerHTML=cart.length?cart.map((id,i)=>{const p=products.find(x=>x.id===id);return p?`<p>${p.emoji||'🛒'} ${p.name} · ${money(p.price)} <button type="button" data-remove="${i}">Quitar</button></p>`:''}).join(''):'<p>Tu reserva está vacía.</p>';orderForm.hidden=!cart.length;cartItems.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{cart.splice(Number(b.dataset.remove),1);cartButton.querySelector('b').textContent=cart.length;openCart()});modal.hidden=false}
 cartButton.onclick=openCart;modal.querySelector('.close').onclick=()=>modal.hidden=true;modal.onclick=e=>{if(e.target===modal)modal.hidden=true};search.oninput=renderProducts;
 orderForm.onsubmit=async e=>{e.preventDefault();if(deliveryType.value==='Entrega a domicilio'&&!address.value.trim())return alert('Escribe la dirección de entrega.');const chosen=cart.map(id=>products.find(p=>p.id===id)).filter(Boolean),num='TM-'+Date.now().toString().slice(-6),body={confirmation_code:num,customer_name:customerName.value.trim(),phone:phone.value.trim(),address:address.value.trim(),reference:reference.value.trim(),delivery_type:deliveryType.value,payment_method:paymentMethod.value,items:chosen.map(p=>({id:p.id,name:p.name,price:Number(p.price||0),unit:p.unit})),total:chosen.reduce((s,p)=>s+Number(p.price||0),0),status:'Pendiente'},btn=orderForm.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Enviando…';try{const r=await fetch(`${SUPABASE_URL}/rest/v1/orders`,{method:'POST',headers:{...apiHeaders,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(body)});if(!r.ok)throw Error();cart=[];cartButton.querySelector('b').textContent='0';modal.hidden=true;orderForm.reset();alert(`Pedido recibido. Tu número de confirmación es ${num}`)}catch(err){alert('No se pudo enviar el pedido. Inténtalo nuevamente.')}finally{btn.disabled=false;btn.textContent='Confirmar pedido'}};
-loadProducts();
+async function loadSettings(){try{const r=await fetch(`${SUPABASE_URL}/rest/v1/site_settings?select=*&id=eq.1`,{headers:apiHeaders});if(!r.ok)throw Error();const value=(await r.json())[0];if(!value)return;if(value.notice){clientNotice.hidden=false;clientNoticeText.textContent=value.notice}publicAddress.textContent=value.address||'Por confirmar';publicPhone.textContent=value.phone||'Por confirmar';publicPhone.href=value.phone?'tel:'+value.phone.replace(/\s/g,''):'#';footerPhone.textContent=value.phone||'+53 56989325';publicPayments.innerHTML=(value.payment_methods||[]).map(method=>`<li>${method}</li>`).join('');publicExtra.textContent=value.additional_info||'';const options=value.payment_methods||[];if(options.length)paymentMethod.innerHTML=options.map(method=>`<option>${method}</option>`).join('')}catch(e){}}
+questionForm.onsubmit=async event=>{event.preventDefault();const button=questionForm.querySelector('button'),body={name:questionName.value.trim(),phone:questionPhone.value.trim(),message:questionMessage.value.trim(),status:'Pendiente'};button.disabled=true;button.textContent='Enviando…';try{const r=await fetch(`${SUPABASE_URL}/rest/v1/customer_questions`,{method:'POST',headers:{...apiHeaders,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(body)});if(!r.ok)throw Error();questionForm.reset();alert('Tu pregunta fue enviada a Tu Market.')}catch(e){alert('No se pudo enviar la pregunta. Inténtalo nuevamente.')}finally{button.disabled=false;button.textContent='Enviar pregunta'}};
+loadSettings();loadProducts();
 </script>
 </body>
 </html>
+
