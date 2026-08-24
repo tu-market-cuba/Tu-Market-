@@ -1,5 +1,5 @@
 const CACHE='tu-market-offline-v4';
-const FILES=['./','./index.html','./admin.html','./caja.html','./tu-market.css','./tu-market-brand.jpg','./tu-market-logo-realistic.png'];
+const FILES=['./','./index.html','./admin.html','./caja.html','./caja-dependientes.html','./tu-market.css','./tu-market-brand.jpg','./tu-market-logo-realistic.png'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
@@ -9,6 +9,6 @@ self.addEventListener('fetch',event=>{
   event.respondWith(
     fetch(event.request)
       .then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response})
-      .catch(()=>caches.match(event.request).then(hit=>hit||caches.match(url.pathname.endsWith('caja.html')?'./caja.html':'./index.html')))
+      .catch(()=>caches.match(event.request).then(hit=>hit||caches.match(url.pathname.endsWith('caja-dependientes.html')?'./caja-dependientes.html':url.pathname.endsWith('caja.html')?'./caja.html':'./index.html')))
   );
 });
