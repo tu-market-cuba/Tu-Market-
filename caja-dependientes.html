@@ -43,10 +43,11 @@
     </section>
     </div>
   </main>
+  <script src="./zxing.min.js"></script>
   <script>
     const SUPABASE_URL='https://faebaloprnuvkmqggsgo.supabase.co';
     const SUPABASE_KEY='sb_publishable_L12dqE66IVhn_qCoooGx5A_XQ2bVXRj';
-    let products=[],sale=[],currentCashier=null,cameraStream=null,cameraTimer=null,lastCameraCode='',lastCameraTime=0;
+    let products=[],sale=[],currentCashier=null,cameraStream=null,cameraTimer=null,zxingReader=null,lastCameraCode='',lastCameraTime=0;
     const encoder=new TextEncoder();
     async function hashPassword(value,salt){const data=encoder.encode(`${salt}:${value}`),digest=await crypto.subtle.digest('SHA-256',data);return [...new Uint8Array(digest)].map(v=>v.toString(16).padStart(2,'0')).join('')}
     function cashiers(){return JSON.parse(localStorage.getItem('tm-cashiers')||'[]').filter(v=>v.active!==false)}
@@ -72,10 +73,15 @@
     async function startCamera(){
       scanError.textContent='';
       if(!navigator.mediaDevices?.getUserMedia){scanError.textContent='La cámara no está disponible en este navegador.';return}
-      if(!('BarcodeDetector'in window)){scanError.textContent='Este navegador no permite leer códigos con la cámara. Usa Chrome actualizado en la tableta.';return}
+      if(!('BarcodeDetector'in window)&&!window.ZXing){scanError.textContent='No se pudo cargar el lector de códigos. Conecta internet y recarga la caja una vez.';return}
       try{
         cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});
         cameraVideo.srcObject=cameraStream;cameraBox.classList.remove('hide');
+        if(!('BarcodeDetector'in window)){
+          zxingReader=new ZXing.BrowserMultiFormatReader();
+          zxingReader.decodeFromVideoElementContinuously(cameraVideo,(result)=>{if(!result)return;const value=result.getText().trim(),now=Date.now();if(value&&(value!==lastCameraCode||now-lastCameraTime>1500)){lastCameraCode=value;lastCameraTime=now;scanCode.value=value;scanProduct()}});
+          return;
+        }
         const supported=await BarcodeDetector.getSupportedFormats();
         const wanted=['code_128','ean_13','ean_8','upc_a','upc_e','qr_code'].filter(v=>supported.includes(v));
         const detector=new BarcodeDetector(wanted.length?{formats:wanted}:undefined);
@@ -83,7 +89,7 @@
         cameraVideo.onloadeddata=detect;
       }catch(e){stopCamera();scanError.textContent='No se pudo abrir la cámara. Pulsa Permitir cuando la tableta solicite acceso.'}
     }
-    function stopCamera(){if(cameraTimer)cancelAnimationFrame(cameraTimer);cameraTimer=null;if(cameraStream)cameraStream.getTracks().forEach(track=>track.stop());cameraStream=null;cameraVideo.srcObject=null;cameraBox.classList.add('hide')}
+    function stopCamera(){if(cameraTimer)cancelAnimationFrame(cameraTimer);cameraTimer=null;if(zxingReader)try{zxingReader.reset()}catch(e){}zxingReader=null;if(cameraStream)cameraStream.getTracks().forEach(track=>track.stop());cameraStream=null;cameraVideo.srcObject=null;cameraBox.classList.add('hide')}
     function changeQty(id,amount){const item=sale.find(v=>v.id===id);if(!item)return;item.qty+=amount;if(item.qty<=0)sale=sale.filter(v=>v.id!==id);renderSale()}
     function removeItem(id){sale=sale.filter(v=>v.id!==id);renderSale()}
     function productPhoto(v){return v.image_url?`<img class="productPhoto" src="${v.image_url}" alt="">`:'<span class="photoFallback">🛒</span>'}

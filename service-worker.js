@@ -1,5 +1,5 @@
-const CACHE='tu-market-offline-v4';
-const FILES=['./','./index.html','./admin.html','./caja.html','./caja-dependientes.html','./tu-market.css','./tu-market-brand.jpg','./tu-market-logo-realistic.png'];
+const CACHE='tu-market-offline-v5';
+const FILES=['./','./index.html','./admin.html','./caja.html','./caja-dependientes.html','./zxing.min.js','./tu-market.css','./tu-market-brand.jpg','./tu-market-logo-realistic.png'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
