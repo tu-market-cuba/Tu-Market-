@@ -9,18 +9,30 @@
   <meta name="apple-mobile-web-app-title" content="Caja Tu Market">
   <title>Caja Tu Market</title>
   <style>
-    *{box-sizing:border-box}body{margin:0;background:#f6f7f2;color:#16382d;font-family:system-ui,-apple-system,sans-serif}header{background:#16382d;color:#fff;padding:22px 18px}header h1{margin:0;font-family:Georgia,serif}.wrap{max-width:850px;margin:auto;padding:18px}.card{background:#fff;border:1px solid #e0e6e2;border-radius:22px;padding:20px;margin:14px 0}.status{background:#edf6d9;border-radius:10px;padding:10px;margin-bottom:14px}.offline{background:#fff3cd;color:#705600}input{width:100%;padding:15px;border:2px solid #ccd6d0;border-radius:12px;font-size:18px}button{border:0;background:#16382d;color:#fff;border-radius:11px;padding:13px 16px;font-size:16px;font-weight:800}.scan{display:grid;grid-template-columns:1fr auto;gap:10px}.muted{color:#6d7e76}.row{align-items:center;border-top:1px solid #e0e6e2;display:grid;gap:10px;grid-template-columns:1fr auto auto;padding:14px 0}.qty{align-items:center;display:flex;gap:8px}.qty button{padding:8px 12px}.remove{background:#a43b3b}.total{border-top:3px solid #16382d;display:flex;font-size:28px;justify-content:space-between;margin-top:18px;padding-top:18px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.secondary{background:#6d7e76}.receipt{background:#fff;color:#000;font-family:monospace;padding:10px}.receipt h3,.receipt p{text-align:center}.receiptLine{display:flex;justify-content:space-between}.hide{display:none}@media(max-width:600px){.scan,.row{grid-template-columns:1fr}.actions button{min-height:58px}}@media print{body *{visibility:hidden!important}#receiptBox,#receiptBox *{visibility:visible!important}#receiptBox{display:block!important;left:0;padding:2mm;position:fixed;top:0;width:58mm}}
+    *{box-sizing:border-box}body{margin:0;background:#f6f7f2;color:#16382d;font-family:system-ui,-apple-system,sans-serif}header{background:#16382d;color:#fff;padding:22px 18px}header h1{margin:0;font-family:Georgia,serif}.wrap{max-width:850px;margin:auto;padding:18px}.card{background:#fff;border:1px solid #e0e6e2;border-radius:22px;padding:20px;margin:14px 0}.loginCard{max-width:460px;margin:7vh auto}.status{background:#edf6d9;border-radius:10px;padding:10px;margin-bottom:14px}.offline{background:#fff3cd;color:#705600}input,select{width:100%;padding:15px;border:2px solid #ccd6d0;border-radius:12px;font-size:18px;margin:5px 0 12px}button{border:0;background:#16382d;color:#fff;border-radius:11px;padding:13px 16px;font-size:16px;font-weight:800}.scan{display:grid;grid-template-columns:1fr auto;gap:10px}.cameraButton{margin-top:12px;width:100%}.cameraBox{background:#101814;border-radius:14px;margin-top:12px;overflow:hidden;padding:10px}.cameraBox video{background:#000;border-radius:9px;display:block;max-height:55vh;object-fit:cover;width:100%}.cameraBox button{margin-top:10px;width:100%}.muted{color:#6d7e76}.cashierBar{align-items:center;background:#edf6d9;border-radius:12px;display:flex;justify-content:space-between;margin-bottom:14px;padding:11px 14px}.cashierBar button{padding:8px 11px}.row{align-items:center;border-top:1px solid #e0e6e2;display:grid;gap:10px;grid-template-columns:64px 1fr auto auto;padding:14px 0}.productPhoto{background:#edf2ee;border-radius:9px;height:58px;object-fit:cover;width:58px}.photoFallback{align-items:center;background:#edf2ee;border-radius:9px;display:flex;font-size:26px;height:58px;justify-content:center;width:58px}.qty{align-items:center;display:flex;gap:8px}.qty button{padding:8px 12px}.remove{background:#a43b3b}.total{border-top:3px solid #16382d;display:flex;font-size:28px;justify-content:space-between;margin-top:18px;padding-top:18px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.secondary{background:#6d7e76}.receipt{background:#fff;color:#000;font-family:monospace;padding:10px}.receipt h3,.receipt p{text-align:center}.receiptLine{display:flex;justify-content:space-between}.hide{display:none}@media(max-width:600px){.scan{grid-template-columns:1fr}.row{grid-template-columns:64px 1fr}.row .qty,.row>div:last-child{grid-column:2}.actions button{min-height:58px}}@media print{body *{visibility:hidden!important}#receiptBox,#receiptBox *{visibility:visible!important}#receiptBox{display:block!important;left:0;padding:2mm;position:fixed;top:0;width:58mm}}
   </style>
 </head>
 <body>
   <header><div class="wrap"><h1>🧾 Caja Tu Market</h1><div>Ventas y recibos</div></div></header>
   <main class="wrap">
+    <section id="cashierLogin" class="card loginCard">
+      <h2>Iniciar turno</h2>
+      <p class="muted">Selecciona tu nombre y escribe tu contraseña para comenzar a vender.</p>
+      <label>Dependiente</label><select id="cashierSelect"></select>
+      <label>Contraseña</label><input id="cashierPassword" type="password" inputmode="numeric" autocomplete="current-password">
+      <button style="width:100%" onclick="cashierEnter()">Entrar a la caja</button>
+      <p id="cashierError" class="muted"></p>
+    </section>
+    <div id="cashierApp" class="hide">
+    <div class="cashierBar"><span>Dependiente: <b id="cashierName"></b></span><button class="secondary" onclick="cashierLogout()">Cerrar turno</button></div>
     <div id="connectionStatus" class="status">Cargando productos…</div>
     <div id="receiptBox" class="receipt hide"></div>
     <section class="card">
       <h2>Escanear producto</h2>
       <p class="muted">Escanea una etiqueta TM o escribe el código y presiona Enter.</p>
       <div class="scan"><input id="scanCode" placeholder="TM000001" autocomplete="off" autofocus><button onclick="scanProduct()">Agregar</button></div>
+      <button class="cameraButton" onclick="startCamera()">📷 Escanear con cámara</button>
+      <div id="cameraBox" class="cameraBox hide"><video id="cameraVideo" autoplay muted playsinline></video><button class="secondary" onclick="stopCamera()">Cerrar cámara</button></div>
       <p id="scanError" class="muted"></p>
     </section>
     <section class="card">
@@ -29,15 +41,26 @@
       <div class="total"><span>Total</span><b id="saleTotal">$0.00</b></div>
       <div class="actions"><button class="secondary" onclick="clearSale()">Vaciar compra</button><button onclick="finishSale()">Cobrar e imprimir</button></div>
     </section>
+    </div>
   </main>
+  <script src="./zxing.min.js"></script>
   <script>
     const SUPABASE_URL='https://faebaloprnuvkmqggsgo.supabase.co';
     const SUPABASE_KEY='sb_publishable_L12dqE66IVhn_qCoooGx5A_XQ2bVXRj';
-    let products=[],sale=[];
+    let products=[],sale=[],currentCashier=null,cameraStream=null,cameraTimer=null,zxingReader=null,lastCameraCode='',lastCameraTime=0;
+    const encoder=new TextEncoder();
+    async function legacyHashPassword(value,salt){const data=encoder.encode(`${salt}:${value}`),digest=await crypto.subtle.digest('SHA-256',data);return [...new Uint8Array(digest)].map(v=>v.toString(16).padStart(2,'0')).join('')}
+    async function pbkdf2Password(value,salt){const key=await crypto.subtle.importKey('raw',encoder.encode(value),'PBKDF2',false,['deriveBits']),bits=await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:encoder.encode(salt),iterations:150000},key,256);return [...new Uint8Array(bits)].map(v=>v.toString(16).padStart(2,'0')).join('')}
+    function cashiers(){try{return JSON.parse(localStorage.getItem('tm-cashiers-cache')||'[]').filter(v=>v.active!==false)}catch(e){return[]}}
+    function renderCashiers(){const staff=cashiers();cashierSelect.innerHTML=staff.length?staff.map(v=>`<option value="${v.id}">${v.name}</option>`).join(''):'<option value="">No hay dependientes disponibles</option>';cashierPassword.disabled=!staff.length;cashierLogin.querySelector('button').disabled=!staff.length;cashierError.textContent=staff.length?'':'Conecta internet una vez para sincronizar los dependientes.'}
+    async function loadCashiers(){try{const r=await fetch(`${SUPABASE_URL}/rest/v1/cashiers?select=id,name,salt,password_hash,password_algorithm,active&active=eq.true&order=name.asc`,{headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`},cache:'no-store'});if(!r.ok)throw Error();const staff=await r.json();localStorage.setItem('tm-cashiers-cache',JSON.stringify(staff))}catch(e){}renderCashiers()}
+    async function cashierEnter(){const worker=cashiers().find(v=>v.id===cashierSelect.value);if(!worker)return;cashierError.textContent='Comprobando…';const hash=worker.password_algorithm==='legacy-sha256'?await legacyHashPassword(cashierPassword.value,worker.salt):await pbkdf2Password(cashierPassword.value,worker.salt);if(hash!==worker.password_hash){cashierError.textContent='Contraseña incorrecta.';cashierPassword.select();return}currentCashier={id:worker.id,name:worker.name};sessionStorage.setItem('tm-current-cashier',JSON.stringify(currentCashier));cashierPassword.value='';cashierError.textContent='';showCashierApp()}
+    function showCashierApp(){cashierLogin.classList.add('hide');cashierApp.classList.remove('hide');cashierName.textContent=currentCashier.name;loadProducts()}
+    function cashierLogout(){if(sale.length&&!confirm('Hay productos sin cobrar. ¿Cerrar el turno y vaciar la compra?'))return;stopCamera();sale=[];sessionStorage.removeItem('tm-current-cashier');currentCashier=null;cashierApp.classList.add('hide');cashierLogin.classList.remove('hide');loadCashiers();cashierPassword.focus()}
     function productCode(id){return 'TM'+String(id).padStart(6,'0')}
     async function loadProducts(){
       try{
-        const r=await fetch(`${SUPABASE_URL}/rest/v1/products?select=id,name,price,available&order=name.asc`,{headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}});
+        const r=await fetch(`${SUPABASE_URL}/rest/v1/products?select=id,name,price,available,image_url&order=name.asc`,{headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`},cache:'no-store'});
         if(!r.ok)throw Error();
         products=await r.json();localStorage.setItem('tm-cashier-products',JSON.stringify(products));
         connectionStatus.textContent=`Caja lista · ${products.length} productos actualizados`;connectionStatus.className='status';
@@ -49,15 +72,41 @@
     }
     function findProduct(code){const match=code.trim().toUpperCase().match(/^TM0*(\d+)$/);return match?products.find(v=>Number(v.id)===Number(match[1])&&v.available!==false):null}
     function scanProduct(){const code=scanCode.value.trim(),product=findProduct(code);scanError.textContent='';if(!code)return;if(!product){scanError.textContent='Código no encontrado o producto no disponible.';scanCode.select();return}const item=sale.find(v=>v.id===product.id);if(item)item.qty++;else sale.push({...product,qty:1});scanCode.value='';renderSale();scanCode.focus()}
+    async function startCamera(){
+      scanError.textContent='';
+      if(!navigator.mediaDevices?.getUserMedia){scanError.textContent='La cámara no está disponible en este navegador.';return}
+      if(!('BarcodeDetector'in window)&&!window.ZXing){scanError.textContent='No se pudo cargar el lector de códigos. Conecta internet y recarga la caja una vez.';return}
+      try{
+        cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});
+        cameraVideo.srcObject=cameraStream;cameraBox.classList.remove('hide');
+        if(!('BarcodeDetector'in window)){
+          zxingReader=new ZXing.BrowserMultiFormatReader();
+          zxingReader.decodeFromVideoElementContinuously(cameraVideo,(result)=>{if(!result)return;const value=result.getText().trim(),now=Date.now();if(value&&(value!==lastCameraCode||now-lastCameraTime>1500)){lastCameraCode=value;lastCameraTime=now;scanCode.value=value;scanProduct()}});
+          return;
+        }
+        const supported=await BarcodeDetector.getSupportedFormats();
+        const wanted=['code_128','ean_13','ean_8','upc_a','upc_e','qr_code'].filter(v=>supported.includes(v));
+        const detector=new BarcodeDetector(wanted.length?{formats:wanted}:undefined);
+        const detect=async()=>{if(!cameraStream)return;try{const codes=await detector.detect(cameraVideo);if(codes.length){const value=codes[0].rawValue.trim(),now=Date.now();if(value&&(value!==lastCameraCode||now-lastCameraTime>1500)){lastCameraCode=value;lastCameraTime=now;scanCode.value=value;scanProduct()}}}catch(e){}cameraTimer=requestAnimationFrame(detect)};
+        cameraVideo.onloadeddata=detect;
+      }catch(e){stopCamera();scanError.textContent='No se pudo abrir la cámara. Pulsa Permitir cuando la tableta solicite acceso.'}
+    }
+    function stopCamera(){if(cameraTimer)cancelAnimationFrame(cameraTimer);cameraTimer=null;if(zxingReader)try{zxingReader.reset()}catch(e){}zxingReader=null;if(cameraStream)cameraStream.getTracks().forEach(track=>track.stop());cameraStream=null;cameraVideo.srcObject=null;cameraBox.classList.add('hide')}
     function changeQty(id,amount){const item=sale.find(v=>v.id===id);if(!item)return;item.qty+=amount;if(item.qty<=0)sale=sale.filter(v=>v.id!==id);renderSale()}
     function removeItem(id){sale=sale.filter(v=>v.id!==id);renderSale()}
-    function renderSale(){saleList.innerHTML=sale.length?'':'<p class="muted">Todavía no hay productos en la compra.</p>';let total=0;sale.forEach(v=>{total+=Number(v.price||0)*v.qty;saleList.insertAdjacentHTML('beforeend',`<div class="row"><span><b>${v.name}</b><br><small>${productCode(v.id)} · $${Number(v.price||0).toFixed(2)} c/u</small></span><div class="qty"><button onclick="changeQty(${v.id},-1)">−</button><b>${v.qty}</b><button onclick="changeQty(${v.id},1)">+</button></div><div><b>$${(Number(v.price||0)*v.qty).toFixed(2)}</b> <button class="remove" onclick="removeItem(${v.id})">Eliminar</button></div></div>`)});saleTotal.textContent='$'+total.toFixed(2)}
+    function productPhoto(v){return v.image_url?`<img class="productPhoto" src="${v.image_url}" alt="">`:'<span class="photoFallback">🛒</span>'}
+    function renderSale(){saleList.innerHTML=sale.length?'':'<p class="muted">Todavía no hay productos en la compra.</p>';let total=0;sale.forEach(v=>{total+=Number(v.price||0)*v.qty;saleList.insertAdjacentHTML('beforeend',`<div class="row">${productPhoto(v)}<span><b>${v.name}</b><br><small>${productCode(v.id)} · $${Number(v.price||0).toFixed(2)} c/u</small></span><div class="qty"><button onclick="changeQty(${v.id},-1)">−</button><b>${v.qty}</b><button onclick="changeQty(${v.id},1)">+</button></div><div><b>$${(Number(v.price||0)*v.qty).toFixed(2)}</b> <button class="remove" onclick="removeItem(${v.id})">Eliminar</button></div></div>`)});saleTotal.textContent='$'+total.toFixed(2)}
     function clearSale(){if(sale.length&&!confirm('¿Vaciar todos los productos de esta compra?'))return;sale=[];renderSale();scanCode.focus()}
-    function finishSale(){if(!sale.length)return alert('Escanea al menos un producto.');const total=sale.reduce((sum,v)=>sum+Number(v.price||0)*v.qty,0),date=new Date(),receipt={id:'V'+Date.now(),date:date.toISOString(),items:sale.map(v=>({id:v.id,name:v.name,price:Number(v.price||0),qty:v.qty})),total};const saved=JSON.parse(localStorage.getItem('tm-offline-sales')||'[]');saved.unshift(receipt);localStorage.setItem('tm-offline-sales',JSON.stringify(saved.slice(0,500)));receiptBox.innerHTML=`<h3>Tu Market</h3><p>${date.toLocaleString('es-CU')}</p>${sale.map(v=>`<div>${v.qty} × ${v.name}</div><div class="receiptLine"><span>$${Number(v.price||0).toFixed(2)} c/u</span><b>$${(Number(v.price||0)*v.qty).toFixed(2)}</b></div>`).join('')}<hr><div class="receiptLine"><b>TOTAL</b><b>$${total.toFixed(2)}</b></div><p>Gracias por su compra</p>`;receiptBox.classList.remove('hide');window.print();sale=[];renderSale();scanCode.focus()}
+    async function syncPendingSales(){if(!navigator.onLine)return;let pending=[];try{pending=JSON.parse(localStorage.getItem('tm-offline-sales')||'[]')}catch(e){}if(!pending.length)return;const remaining=[];for(const receipt of pending){try{const body={id:receipt.id,receipt_id:receipt.id,cashier_id:String(receipt.cashierId),cashier_name:receipt.cashierName,sale_date:receipt.date,items:receipt.items,total:receipt.total};const r=await fetch(`${SUPABASE_URL}/rest/v1/pos_sales?on_conflict=id`,{method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json',Prefer:'resolution=ignore-duplicates,return=minimal'},body:JSON.stringify(body)});if(!r.ok)throw Error()}catch(e){remaining.push(receipt)}}localStorage.setItem('tm-offline-sales',JSON.stringify(remaining.slice(0,500)))}
+    function finishSale(){if(!currentCashier)return cashierLogout();if(!sale.length)return alert('Escanea al menos un producto.');const total=sale.reduce((sum,v)=>sum+Number(v.price||0)*v.qty,0),date=new Date(),receipt={id:'V'+Date.now(),date:date.toISOString(),cashierId:currentCashier.id,cashierName:currentCashier.name,items:sale.map(v=>({id:v.id,name:v.name,price:Number(v.price||0),qty:v.qty})),total};const saved=JSON.parse(localStorage.getItem('tm-offline-sales')||'[]');saved.unshift(receipt);localStorage.setItem('tm-offline-sales',JSON.stringify(saved.slice(0,500)));syncPendingSales();receiptBox.innerHTML=`<h3>Tu Market</h3><p>${date.toLocaleString('es-CU')}</p><p>Dependiente: ${currentCashier.name}</p>${sale.map(v=>`<div>${v.qty} × ${v.name}</div><div class="receiptLine"><span>$${Number(v.price||0).toFixed(2)} c/u</span><b>$${(Number(v.price||0)*v.qty).toFixed(2)}</b></div>`).join('')}<hr><div class="receiptLine"><b>TOTAL</b><b>$${total.toFixed(2)}</b></div><p>Gracias por su compra</p>`;receiptBox.classList.remove('hide');window.print();sale=[];renderSale();scanCode.focus()}
     scanCode.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();scanProduct()}});
-    window.addEventListener('online',loadProducts);window.addEventListener('offline',()=>{connectionStatus.textContent='Modo sin internet · usando productos guardados';connectionStatus.className='status offline'});
+    function refreshCashier(){if(!navigator.onLine)return;loadProducts();loadCashiers();syncPendingSales()}
+    window.addEventListener('online',refreshCashier);window.addEventListener('offline',()=>{connectionStatus.textContent='Modo sin internet · usando productos guardados';connectionStatus.className='status offline'});
+    window.addEventListener('focus',refreshCashier);
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshCashier()});
+    setInterval(()=>{if(!document.hidden)refreshCashier()},10000);
     if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
-    loadProducts();
+    loadCashiers().then(()=>{try{currentCashier=JSON.parse(sessionStorage.getItem('tm-current-cashier')||'null')}catch(e){}if(currentCashier&&cashiers().some(v=>v.id===currentCashier.id))showCashierApp()});syncPendingSales();
   </script>
 </body>
 </html>
