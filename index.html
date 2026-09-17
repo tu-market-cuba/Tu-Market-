@@ -25,14 +25,14 @@
 <meta name="twitter:image" content="https://tu-market-cuba.github.io/Tu-Market-/tu-market-brand.jpg"/>
 <link rel="icon" href="tu-market-logo-realistic.png"/>
 <link rel="apple-touch-icon" href="tu-market-logo-realistic.png"/>
-<style>[hidden]{display:none!important}.clientNotice{background:#fff3cd;border:1px solid #ecd98d;border-radius:16px;margin:20px auto;max-width:1080px;padding:18px}.contactPanel{background:#f6f7f2;padding:48px 7vw}.contactGrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1080px;margin:auto}.questionForm{background:#fff;border:1px solid #e0e6e2;border-radius:20px;padding:20px}.questionForm input,.questionForm textarea{display:block;width:100%;padding:11px;border:1px solid #ccd6d0;border-radius:10px;margin:6px 0 12px}.questionForm textarea{min-height:110px}.questionForm button{border:0;background:#16382d;color:#fff;border-radius:10px;padding:12px 16px;font-weight:800}.storeDetails p{white-space:pre-wrap}@media(max-width:700px){.contactGrid{grid-template-columns:1fr}}</style>
+<style>[hidden]{display:none!important}.clientNotice{background:#fff3cd;border:1px solid #ecd98d;border-radius:16px;margin:20px auto;max-width:1080px;padding:18px}.contactPanel{background:#f6f7f2;padding:48px 7vw}.contactGrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1080px;margin:auto}.questionForm{background:#fff;border:1px solid #e0e6e2;border-radius:20px;padding:20px}.questionForm input,.questionForm textarea{display:block;width:100%;padding:11px;border:1px solid #ccd6d0;border-radius:10px;margin:6px 0 12px}.questionForm textarea{min-height:110px}.questionForm button{border:0;background:#16382d;color:#fff;border-radius:10px;padding:12px 16px;font-weight:800}.storeDetails p{white-space:pre-wrap}.oldPrice{text-decoration:line-through;color:#7a7a7a;font-size:15px;margin-right:6px}.salePrice{color:#b42318;font-size:22px;font-weight:900}.discountBadge{background:#b42318;border-radius:999px;color:#fff;display:inline-block;font-size:12px;font-weight:900;margin-left:5px;padding:3px 8px;vertical-align:2px}.unitText{color:#60766d;font-size:13px;font-weight:500}.cartRow{border-bottom:1px solid #e1e7e3;display:grid;gap:10px;grid-template-columns:1fr auto;align-items:center;padding:14px 0}.cartRowName{font-weight:800}.cartRowPrice{color:#60766d;font-size:13px;margin-top:3px}.qtyControls{align-items:center;display:flex;gap:9px}.qtyControls button{background:#16382d;border:0;border-radius:9px;color:#fff;cursor:pointer;font-size:20px;font-weight:900;height:34px;width:34px}.qtyControls strong{min-width:24px;text-align:center}.removeItem{background:transparent!important;color:#a43b3b!important;font-size:13px!important;height:auto!important;width:auto!important}.cartTotal{border-top:2px solid #16382d;display:flex;font-size:20px;justify-content:space-between;margin:16px 0;padding-top:14px}.minimumPurchase{background:#fff3cd;border-radius:10px;color:#705600;margin:10px 0;padding:10px}.productInfo button:not(:disabled){background:#16382d;color:#fff;cursor:pointer}@media(max-width:700px){.contactGrid{grid-template-columns:1fr}.cartRow{grid-template-columns:1fr}.qtyControls{justify-content:flex-start}}</style>
 </head>
 <body>
 <main>
 <header class="topbar">
 <a class="brand brandWithLogo" href="#inicio" aria-label="Tu Market, inicio">
 <img src="tu-market-logo-realistic.png" alt=""/>
-<span>
+<span id="headerStoreName">
 <b>Tu</b> Market</span>
 </a>
 <nav>
@@ -45,17 +45,16 @@
 </header>
 <section class="hero" id="inicio">
 <div class="heroCopy">
-<p class="eyebrow">Calabazar de Sagua · Villa Clara</p>
-<h1>Todo lo que necesitas, <em>en un solo lugar.</em>
-</h1>
-<p class="lead">Consulta lo disponible hoy, reserva desde tu teléfono y elige recoger en el mercado o recibir tu compra a domicilio.</p>
+<p class="eyebrow" id="storeLocation">Calabazar de Sagua · Villa Clara</p>
+<h1 id="storeSlogan">Todo lo que necesitas, <em>en un solo lugar.</em></h1>
+<p class="lead" id="storeDescription">Consulta lo disponible hoy, reserva desde tu teléfono y elige recoger en el mercado o recibir tu compra a domicilio.</p>
 <div class="heroActions">
 <a class="primary" href="#productos">Ver productos</a>
-<a class="secondary" href="https://wa.me/5356989325">Pedir por WhatsApp</a>
+<a class="secondary" id="whatsappLink" href="https://wa.me/5356989325">Pedir por WhatsApp</a>
 </div>
 <div class="quickFacts">
-<span>● Abierto 7:00 a. m.–7:00 p. m.</span>
-<span>Reservas por 24 horas</span>
+<span id="openHoursQuick">● Abierto 7:00 a. m.–7:00 p. m.</span>
+<span id="pickupLimitQuick">Reservas por 24 horas</span>
 </div>
 </div>
 <div class="marketCard" aria-hidden="true">
@@ -81,21 +80,21 @@
 <section class="delivery" id="entrega">
 <div>
 <p class="eyebrow">Llegamos hasta ti</p>
-<h2>Entrega en Encrucijada y Cifuentes</h2>
-<p>Realizamos entregas en todo el territorio de ambos municipios. El costo se calcula según la distancia y se confirma antes de confirmar el pedido.</p>
+<h2 id="deliveryTitle">Entrega en Encrucijada y Cifuentes</h2>
+<p id="deliveryDescription">Realizamos entregas en todo el territorio de ambos municipios. El costo se calcula según la distancia y se confirma antes de confirmar el pedido.</p>
 <ul>
 <li>Escribe tu dirección y un punto de referencia</li>
 <li>Te confirmamos el costo de entrega</li>
-<li>La compra mínima podrá configurarse más adelante</li>
+<li id="minimumPurchaseInfo">Compra mínima: por confirmar</li>
 </ul>
 </div>
 <div class="routeCard">
 <span>Tu pedido</span>
-<b>Calabazar de Sagua</b>
+<b id="deliveryOrigin">Calabazar de Sagua</b>
 <div class="routeLine">
 </div>
 <span>Tu dirección</span>
-<b>Encrucijada o Cifuentes</b>
+<b id="deliveryArea">Encrucijada o Cifuentes</b>
 </div>
 </section>
 <section class="contactPanel" id="contacto"><div class="contactGrid"><div class="storeDetails"><p class="eyebrow">Información de la tienda</p><h2>Estamos para ayudarte</h2><p><b>Dirección:</b> <span id="publicAddress">Por confirmar</span></p><p><b>Teléfono:</b> <a id="publicPhone" href="#">Por confirmar</a></p><p><b>Formas de pago:</b></p><ul id="publicPayments"></ul><p id="publicExtra"></p></div><form id="questionForm" class="questionForm"><h2>Preguntas o inquietudes</h2><p>Escríbenos. Tu mensaje solamente será visible en el panel administrativo.</p><label>Nombre<input id="questionName" required></label><label>Teléfono (opcional)<input id="questionPhone" inputmode="tel"></label><label>Mensaje<textarea id="questionMessage" required></textarea></label><button type="submit">Enviar pregunta</button></form></div></section><section class="info" id="informacion">
@@ -103,7 +102,7 @@
 <span>◷</span>
 <h3>Horario</h3>
 <p>Todos los días<br/>
-<b>7:00 a. m.–7:00 p. m.</b>
+<b id="openHoursInfo">7:00 a. m.–7:00 p. m.</b><br><small id="deliveryHoursInfo"></small>
 </p>
 </article>
 <article>
@@ -123,7 +122,7 @@
 <span>
 <b>Tu</b> Market</span>
 </div>
-<p>Tu mercado local en Calabazar de Sagua.</p>
+<p id="footerText">Tu mercado local en Calabazar de Sagua.</p>
 <p>Pedidos: <span id="footerPhone">+53 56989325</span></p>
 <p><a href="admin.html">Acceso administrativo</a></p>
 </footer>
@@ -133,23 +132,57 @@
 <form id="orderForm"><label>Nombre y apellidos<input id="customerName" required></label><label>Teléfono<input id="phone" inputmode="tel" required></label><label>Entrega<select id="deliveryType"><option>Recoger en la tienda</option><option>Entrega a domicilio</option></select></label><label>Dirección<input id="address"></label><label>Punto de referencia (opcional)<textarea id="reference"></textarea></label><label>Forma de pago<select id="paymentMethod"><option>Efectivo (cash)</option><option>Zelle</option><option>Transferencia bancaria</option></select></label><button class="primary" type="submit">Confirmar pedido</button></form>
 </div></div>
 <script>
-const SUPABASE_URL='https://faebaloprnuvkmqggsgo.supabase.co',SUPABASE_KEY='sb_publishable_L12dqE66IVhn_qCoooGx5A_XQ2bVXRj',apiHeaders={apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`};
-const search=document.querySelector('.search input'),cartButton=document.querySelector('.cartButton'),modal=document.getElementById('cartModal');let products=[],selected='Todos',cart=[];
-function money(v){return Number(v)>0?`$${Number(v).toFixed(2)}`:'Precio por confirmar'}
-function renderFilters(){const cats=['Todos',...new Set(products.map(p=>p.category).filter(Boolean))];categoryFilters.innerHTML=cats.map(c=>`<button type="button" class="${c===selected?'active':''}" data-category="${c}">${c}</button>`).join('');categoryFilters.querySelectorAll('button').forEach(b=>b.onclick=()=>{selected=b.dataset.category;renderFilters();renderProducts()})}
-function renderProducts(){const q=search.value.toLowerCase(),list=products.filter(p=>(selected==='Todos'||p.category===selected)&&p.name.toLowerCase().includes(q));productGrid.innerHTML=list.map(p=>`<article class="productCard"><div class="productVisual">${p.image_url?`<img src="${p.image_url}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover">`:(p.emoji||'🛒')}<span class="status">${p.available?'Disponible':'Agotado'}</span></div><div class="productInfo"><small>${p.category||''}</small><h3>${p.name}</h3><p class="price">${money(p.price)} <span>/ ${p.unit||'unidad'}</span></p><button ${p.available?'':'disabled'} data-id="${p.id}">${p.available?'Agregar':'No disponible'}</button></div></article>`).join('')||'<p>No hay productos en esta clasificación.</p>';productGrid.querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>add(Number(b.dataset.id)))}
-async function loadProducts(){try{const r=await fetch(`${SUPABASE_URL}/rest/v1/products?select=*&order=name.asc`,{headers:apiHeaders,cache:'no-store'});if(!r.ok)throw Error();products=await r.json();renderFilters();renderProducts()}catch(e){if(!products.length)productGrid.innerHTML='<p>No se pudo cargar el catálogo. Inténtalo nuevamente.</p>'}}
-function add(id){cart.push(id);cartButton.querySelector('b').textContent=cart.length}
-function openCart(){cartItems.innerHTML=cart.length?cart.map((id,i)=>{const p=products.find(x=>x.id===id);return p?`<p>${p.emoji||'🛒'} ${p.name} · ${money(p.price)} <button type="button" data-remove="${i}">Quitar</button></p>`:''}).join(''):'<p>Tu reserva está vacía.</p>';orderForm.hidden=!cart.length;cartItems.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{cart.splice(Number(b.dataset.remove),1);cartButton.querySelector('b').textContent=cart.length;openCart()});modal.hidden=false}
-cartButton.onclick=openCart;modal.querySelector('.close').onclick=()=>modal.hidden=true;modal.onclick=e=>{if(e.target===modal)modal.hidden=true};search.oninput=renderProducts;
-orderForm.onsubmit=async e=>{e.preventDefault();if(deliveryType.value==='Entrega a domicilio'&&!address.value.trim())return alert('Escribe la dirección de entrega.');const chosen=cart.map(id=>products.find(p=>p.id===id)).filter(Boolean),num='TM-'+Date.now().toString().slice(-6),body={confirmation_code:num,customer_name:customerName.value.trim(),phone:phone.value.trim(),address:address.value.trim(),reference:reference.value.trim(),delivery_type:deliveryType.value,payment_method:paymentMethod.value,items:chosen.map(p=>({id:p.id,name:p.name,price:Number(p.price||0),unit:p.unit})),total:chosen.reduce((s,p)=>s+Number(p.price||0),0),status:'Pendiente'},btn=orderForm.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Enviando…';try{const r=await fetch(`${SUPABASE_URL}/rest/v1/orders`,{method:'POST',headers:{...apiHeaders,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(body)});if(!r.ok)throw Error();cart=[];cartButton.querySelector('b').textContent='0';modal.hidden=true;orderForm.reset();alert(`Pedido recibido. Tu número de confirmación es ${num}`)}catch(err){alert('No se pudo enviar el pedido. Inténtalo nuevamente.')}finally{btn.disabled=false;btn.textContent='Confirmar pedido'}};
-async function loadSettings(){try{const r=await fetch(`${SUPABASE_URL}/rest/v1/site_settings?select=*&id=eq.1`,{headers:apiHeaders,cache:'no-store'});if(!r.ok)throw Error();const value=(await r.json())[0];if(!value)return;clientNotice.hidden=!value.notice;clientNoticeText.textContent=value.notice||'';publicAddress.textContent=value.address||'Por confirmar';publicPhone.textContent=value.phone||'Por confirmar';publicPhone.href=value.phone?'tel:'+value.phone.replace(/\s/g,''):'#';footerPhone.textContent=value.phone||'+53 56989325';publicPayments.innerHTML=(value.payment_methods||[]).map(method=>`<li>${method}</li>`).join('');publicExtra.textContent=value.additional_info||'';const options=value.payment_methods||[];if(options.length)paymentMethod.innerHTML=options.map(method=>`<option>${method}</option>`).join('')}catch(e){}}
-questionForm.onsubmit=async event=>{event.preventDefault();const button=questionForm.querySelector('button'),body={name:questionName.value.trim(),phone:questionPhone.value.trim(),message:questionMessage.value.trim(),status:'Pendiente'};button.disabled=true;button.textContent='Enviando…';try{const r=await fetch(`${SUPABASE_URL}/rest/v1/customer_questions`,{method:'POST',headers:{...apiHeaders,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(body)});if(!r.ok)throw Error();questionForm.reset();alert('Tu pregunta fue enviada a Tu Market.')}catch(e){alert('No se pudo enviar la pregunta. Inténtalo nuevamente.')}finally{button.disabled=false;button.textContent='Enviar pregunta'}};
+const SUPABASE_URL='https://faebaloprnuvkmqggsgo.supabase.co';
+const SUPABASE_KEY='sb_publishable_L12dqE66IVhn_qCoooGx5A_XQ2bVXRj';
+const apiHeaders={apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`};
+const SETTINGS_MARKER='__TM_CONFIG__:';
+const search=document.querySelector('.search input');
+const cartButton=document.querySelector('.cartButton');
+const modal=document.getElementById('cartModal');
+const productGrid=document.getElementById('productGrid');
+const categoryFilters=document.getElementById('categoryFilters');
+const cartItems=document.getElementById('cartItems');
+const orderForm=document.getElementById('orderForm');
+const questionForm=document.getElementById('questionForm');
+let products=[],selected='Todos',cart=[];
+
+function safeText(value){return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))}
+function money(value){return Number(value)>0?`$${Number(value).toFixed(2)}`:'Precio por confirmar'}
+function discountPercent(normal,sale){return normal>sale&&sale>=0?Math.round((normal-sale)*100/normal):0}
+function priceMarkup(product){const sale=Number(product.price||0),normal=Number(product.original_price||0),discount=discountPercent(normal,sale);if(discount>0)return`<span class="oldPrice">${money(normal)}</span><span class="salePrice">${money(sale)}</span><span class="discountBadge">-${discount}%</span>`;return`<span>${money(sale)}</span>`}
+function cartCount(){return cart.reduce((total,item)=>total+item.qty,0)}
+function updateCartCount(){cartButton.querySelector('b').textContent=cartCount()}
+function cartTotal(){return cart.reduce((total,item)=>{const product=products.find(p=>String(p.id)===String(item.id));return total+(product?Number(product.price||0)*item.qty:0)},0)}
+
+function renderFilters(){const cats=['Todos',...new Set(products.map(product=>product.category).filter(Boolean))];categoryFilters.innerHTML=cats.map(category=>`<button type="button" class="${category===selected?'active':''}" data-category="${safeText(category)}">${safeText(category)}</button>`).join('');categoryFilters.querySelectorAll('button').forEach(button=>button.onclick=()=>{selected=button.dataset.category;renderFilters();renderProducts()})}
+function renderProducts(){const query=search.value.toLowerCase(),list=products.filter(product=>(selected==='Todos'||product.category===selected)&&String(product.name||'').toLowerCase().includes(query));productGrid.innerHTML=list.map(product=>`<article class="productCard"><div class="productVisual">${product.image_url?`<img src="${safeText(product.image_url)}" alt="${safeText(product.name)}" style="width:100%;height:100%;object-fit:cover">`:safeText(product.emoji||'🛒')}<span class="status">${product.available?'Disponible':'Agotado'}</span></div><div class="productInfo"><small>${safeText(product.category||'')}</small><h3>${safeText(product.name)}</h3><p class="price">${priceMarkup(product)} <span class="unitText">/ ${safeText(product.unit||'unidad')}</span></p><button ${product.available?'':'disabled'} data-id="${safeText(product.id)}">${product.available?'Agregar al carrito':'No disponible'}</button></div></article>`).join('')||'<p class="emptyProducts">No hay productos en esta clasificación.</p>';productGrid.querySelectorAll('button[data-id]').forEach(button=>button.onclick=()=>add(button.dataset.id))}
+async function loadProducts(){try{const response=await fetch(`${SUPABASE_URL}/rest/v1/products?select=*&order=name.asc`,{headers:apiHeaders,cache:'no-store'});if(!response.ok)throw Error();products=await response.json();cart=cart.filter(item=>products.some(product=>String(product.id)===String(item.id)));updateCartCount();renderFilters();renderProducts()}catch(error){if(!products.length)productGrid.innerHTML='<p class="emptyProducts">No se pudo cargar el catálogo. Inténtalo nuevamente.</p>'}}
+
+function add(id){const item=cart.find(entry=>String(entry.id)===String(id));if(item)item.qty++;else cart.push({id:String(id),qty:1});updateCartCount();cartButton.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:250})}
+function changeQuantity(id,amount){const item=cart.find(entry=>String(entry.id)===String(id));if(!item)return;item.qty+=amount;if(item.qty<=0)cart=cart.filter(entry=>String(entry.id)!==String(id));updateCartCount();renderCart()}
+function removeItem(id){cart=cart.filter(entry=>String(entry.id)!==String(id));updateCartCount();renderCart()}
+function renderCart(){cartItems.innerHTML=cart.length?cart.map(item=>{const product=products.find(entry=>String(entry.id)===String(item.id));if(!product)return'';return`<div class="cartRow"><div><div class="cartRowName">${safeText(product.emoji||'🛒')} ${safeText(product.name)}</div><div class="cartRowPrice">${money(product.price)} cada uno · <b>${money(Number(product.price||0)*item.qty)}</b></div></div><div class="qtyControls"><button type="button" data-action="minus" data-id="${safeText(item.id)}" aria-label="Quitar uno">−</button><strong>${item.qty}</strong><button type="button" data-action="plus" data-id="${safeText(item.id)}" aria-label="Agregar uno">+</button><button type="button" class="removeItem" data-action="remove" data-id="${safeText(item.id)}">Quitar</button></div></div>`}).join('')+`<div class="cartTotal"><span>Total</span><b>${money(cartTotal())}</b></div>`:'<p>Tu reserva está vacía.</p>';orderForm.hidden=!cart.length;cartItems.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>{const action=button.dataset.action,id=button.dataset.id;if(action==='plus')changeQuantity(id,1);if(action==='minus')changeQuantity(id,-1);if(action==='remove')removeItem(id)})}
+function openCart(){renderCart();modal.hidden=false}
+cartButton.onclick=openCart;
+modal.querySelector('.close').onclick=()=>modal.hidden=true;
+modal.onclick=event=>{if(event.target===modal)modal.hidden=true};
+search.oninput=renderProducts;
+
+orderForm.onsubmit=async event=>{event.preventDefault();const deliveryType=document.getElementById('deliveryType'),address=document.getElementById('address');if(deliveryType.value==='Entrega a domicilio'&&!address.value.trim())return alert('Escribe la dirección de entrega.');const chosen=cart.map(item=>{const product=products.find(entry=>String(entry.id)===String(item.id));return product?{...product,qty:item.qty}:null}).filter(Boolean),confirmation='TM-'+Date.now().toString().slice(-6),body={confirmation_code:confirmation,customer_name:document.getElementById('customerName').value.trim(),phone:document.getElementById('phone').value.trim(),address:address.value.trim(),reference:document.getElementById('reference').value.trim(),delivery_type:deliveryType.value,payment_method:document.getElementById('paymentMethod').value,items:chosen.map(product=>({id:product.id,name:product.name,price:Number(product.price||0),unit:product.unit,qty:product.qty})),total:chosen.reduce((total,product)=>total+Number(product.price||0)*product.qty,0),status:'Pendiente'},button=orderForm.querySelector('button[type=submit]');button.disabled=true;button.textContent='Enviando…';try{const response=await fetch(`${SUPABASE_URL}/rest/v1/orders`,{method:'POST',headers:{...apiHeaders,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(body)});if(!response.ok)throw Error();cart=[];updateCartCount();modal.hidden=true;orderForm.reset();alert(`Pedido recibido. Tu número de confirmación es ${confirmation}`)}catch(error){alert('No se pudo enviar el pedido. Inténtalo nuevamente.')}finally{button.disabled=false;button.textContent='Confirmar pedido'}};
+
+function readStoreConfig(text){const raw=String(text||''),line=raw.split('\n').find(value=>value.startsWith(SETTINGS_MARKER));if(!line)return{};try{return JSON.parse(decodeURIComponent(line.slice(SETTINGS_MARKER.length)))}catch(error){return{}}}
+function cleanExtra(text){return String(text||'').split('\n').filter(value=>!value.startsWith(SETTINGS_MARKER)&&!/^\s*(Horario|Territorio de entrega):/i.test(value)).join('\n').trim()}
+function setText(id,value,fallback){document.getElementById(id).textContent=value||fallback||''}
+async function loadSettings(){try{const response=await fetch(`${SUPABASE_URL}/rest/v1/site_settings?select=*&id=eq.1`,{headers:apiHeaders,cache:'no-store'});if(!response.ok)throw Error();const value=(await response.json())[0];if(!value)return;const config=readStoreConfig(value.additional_info),phone=value.phone||'',payments=value.payment_methods||[];document.getElementById('clientNotice').hidden=!value.notice;setText('clientNoticeText',value.notice);setText('publicAddress',value.address,'Por confirmar');setText('publicPhone',phone,'Por confirmar');document.getElementById('publicPhone').href=phone?'tel:'+phone.replace(/\s/g,''):'#';setText('footerPhone',phone,'+53 56989325');document.getElementById('publicPayments').innerHTML=payments.map(method=>`<li>${safeText(method)}</li>`).join('');setText('publicExtra',cleanExtra(value.additional_info));if(payments.length)document.getElementById('paymentMethod').innerHTML=payments.map(method=>`<option>${safeText(method)}</option>`).join('');const storeName=config.storeName||'Tu Market';setText('headerStoreName',storeName);document.title=storeName;setText('storeLocation',config.location,'Calabazar de Sagua · Villa Clara');setText('storeDescription',config.description,'Consulta lo disponible hoy, reserva desde tu teléfono y elige recoger en el mercado o recibir tu compra a domicilio.');if(config.slogan)setText('storeSlogan',config.slogan);const whatsapp=String(config.whatsapp||phone).replace(/\D/g,'');if(whatsapp)document.getElementById('whatsappLink').href='https://wa.me/'+whatsapp;setText('openHoursQuick','● Abierto '+(config.openHours||'7:00 a. m.–7:00 p. m.'));setText('pickupLimitQuick','Reservas por '+(config.pickupLimit||'24 horas'));setText('openHoursInfo',config.openHours,'7:00 a. m.–7:00 p. m.');setText('deliveryHoursInfo',config.deliveryHours?'Entregas: '+config.deliveryHours:'');setText('deliveryTitle',config.deliveryTitle,'Entrega en Encrucijada y Cifuentes');setText('deliveryDescription',config.deliveryDescription,'Realizamos entregas en todo el territorio. El costo se confirma antes de realizar el pedido.');setText('minimumPurchaseInfo','Compra mínima: '+(config.minimumPurchase||'por confirmar'));setText('deliveryOrigin',config.deliveryOrigin,'Calabazar de Sagua');setText('deliveryArea',config.deliveryArea,'Encrucijada o Cifuentes');setText('footerText',config.footerText,'Tu mercado local en Calabazar de Sagua.')}catch(error){}}
+
+questionForm.onsubmit=async event=>{event.preventDefault();const button=questionForm.querySelector('button'),body={name:document.getElementById('questionName').value.trim(),phone:document.getElementById('questionPhone').value.trim(),message:document.getElementById('questionMessage').value.trim(),status:'Pendiente'};button.disabled=true;button.textContent='Enviando…';try{const response=await fetch(`${SUPABASE_URL}/rest/v1/customer_questions`,{method:'POST',headers:{...apiHeaders,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(body)});if(!response.ok)throw Error();questionForm.reset();alert('Tu pregunta fue enviada a Tu Market.')}catch(error){alert('No se pudo enviar la pregunta. Inténtalo nuevamente.')}finally{button.disabled=false;button.textContent='Enviar pregunta'}};
 function refreshMarket(){if(!navigator.onLine)return;loadSettings();loadProducts()}
 window.addEventListener('online',refreshMarket);
 window.addEventListener('focus',refreshMarket);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshMarket()});
 setInterval(()=>{if(!document.hidden)refreshMarket()},10000);
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+updateCartCount();
 refreshMarket();
 </script>
 </body>
